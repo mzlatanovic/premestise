@@ -31,6 +31,7 @@ namespace Core.Clients
 
         private readonly string _defaultEmail;
         private readonly string _environment;
+        private readonly string _ccEmail;
         private readonly ISmtpClientFactory _smtpClientFactory;
         private readonly IKindergardenRepository _kindergardenRepository;
         private readonly EmailTemplateService template = new EmailTemplateService();
@@ -54,6 +55,7 @@ namespace Core.Clients
             _kindergardenRepository = kindergardenRepository;
             _defaultEmail = config.GetSection("DefaultEmail").Value;
             _environment = config.GetSection("env").Value;
+            _ccEmail = config.GetSection("DSIEmail").Value;
         }
 
         public void Send(string toEmail, string message)
@@ -195,7 +197,7 @@ namespace Core.Clients
 
         public void SendCircularMatchMessage(List<MatchedRequest> validChain)
         {
-            List<KindergardenEmailInfo> fromRequestsKindergardens = new List<KindergardenEmailInfo>(validChain.Count);
+            List <KindergardenEmailInfo> fromRequestsKindergardens = new List<KindergardenEmailInfo>(validChain.Count);
             //popuni listu, iz svakog zahteva iz lanca izvuci odakle se zeli premestaj sto ce biti dovoljno za email
             foreach (MatchedRequest request in validChain)
             {
@@ -270,7 +272,7 @@ namespace Core.Clients
 
                     var result = Engine.Razor.RunCompile(mailText, Guid.NewGuid().ToString(), typeof(MatchEmailInformation), info);
                     AlternateView messageAltView = AlternateView.CreateAlternateViewFromString(result, null, MediaTypeNames.Text.Html);
-                    Send(info.ToEmail, new List<AlternateView> { messageAltView, bannerImageAltView, footerImageAltView });
+                    Send(info.ToEmail, new List<AlternateView> { messageAltView, bannerImageAltView, footerImageAltView }, new List<String>() { _ccEmail });
                 }
             }
         }
