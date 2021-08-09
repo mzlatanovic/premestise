@@ -13,5 +13,8 @@ namespace Persistence.Interfaces.Contracts
         PendingRequest GetLatest();
         void Delete(int id);
         void Verify(int id);
+        void Notify(int id);
+
+
     }
 }

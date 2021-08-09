@@ -35,6 +35,8 @@ namespace Persistence.Repositories
             command.Parameters.Add("@fromKindergardenId", SqlDbType.Int).Value = request.FromKindergardenId;
             command.Parameters.Add("@submittedAt", SqlDbType.DateTime2).Value = request.SubmittedAt;
             command.Parameters.AddWithValue("@verified", false);
+            command.Parameters.AddWithValue("@notified", false);
+
 
             SqlCommand secondCommand = new SqlCommand();
             var values = new StringBuilder();
@@ -98,7 +100,8 @@ namespace Persistence.Repositories
                 KindergardenWishIds = request.KindergardenWishIds,
                 FromKindergardenId = request.FromKindergardenId,
                 Verified = false,
-                SubmittedAt = request.SubmittedAt
+                SubmittedAt = request.SubmittedAt,
+                Notified = false
             };
         }
 
@@ -133,7 +136,8 @@ namespace Persistence.Repositories
                             ChildName = row["child_name"] == System.DBNull.Value ? null : (string)row["child_name"],
                             ChildBirthDate = row["child_birth_date"] == System.DBNull.Value ? DateTime.Now : (DateTime)row["child_birth_date"],
                             Verified = row["verified"] != System.DBNull.Value && (bool)row["verified"],
-                            
+                            Notified = row["notified"] != System.DBNull.Value && (bool)row["notified"],
+
                             KindergardenWishIds = GetPendingWishes((int)row["id"])
                         };
                     }
@@ -152,8 +156,6 @@ namespace Persistence.Repositories
 
             SqlCommand deletePendingReqCommand = new SqlCommand($"DELETE FROM pending_request WHERE id = @id");
             deletePendingReqCommand.Parameters.Add("@id", SqlDbType.Int).Value = id;
-
-
 
             using (SqlConnection connection = new SqlConnection())
             {
@@ -402,6 +404,25 @@ namespace Persistence.Repositories
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@verified", true);
+                    command.Parameters.AddWithValue("@id", id);
+
+                    command.ExecuteNonQuery();
+                }
+
+            }
+        }
+
+        public void Notify(int id)
+        {
+            using (SqlConnection connection = new SqlConnection())
+            {
+                connection.ConnectionString = _connectionString;
+                connection.Open();
+
+                string query = @"update pending_request set notified= @notified where id=@id";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@notified", true);
                     command.Parameters.AddWithValue("@id", id);
 
                     command.ExecuteNonQuery();

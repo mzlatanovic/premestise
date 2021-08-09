@@ -45,6 +45,11 @@ namespace VegaIT.PremestiSE
             services.AddScoped<IMailClient, MailClient>();
             services.AddScoped<IKindergardenRepository, KindergardenRepository>();
             services.AddSingleton<SmtpClientFactory>();
+
+            services.AddScoped<IDeleteRequestsService, DeleteRequestsService>();
+            services.AddHostedService<Core.Services.DeleteRequestsService>();
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

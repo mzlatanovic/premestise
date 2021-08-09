@@ -15,5 +15,9 @@ namespace Persistence.Interfaces.Entites
         public AgeGroup Group { get; set; }
         public DateTime ChildBirthDate { get; set; }
         public List<int> KindergardenWishIds { get; set; }
+
+        public bool ShouldBeDeleted => SubmittedAt.AddMonths(6) < DateTime.Now;
+
+        public bool ShouldNotify => SubmittedAt.AddMonths(6) > DateTime.Now && SubmittedAt.AddMonths(5) < DateTime.Now;
     }
 }
