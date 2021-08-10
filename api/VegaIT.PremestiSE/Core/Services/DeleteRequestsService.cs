@@ -33,7 +33,7 @@ namespace Core.Services
         public Task StartAsync(CancellationToken stoppingToken)
         {
             _timer = new Timer(DoWork, null, TimeSpan.Zero,
-                TimeSpan.FromMinutes(10));
+                TimeSpan.FromDays(1));
 
             return Task.CompletedTask;
         }
