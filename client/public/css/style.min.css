@@ -2030,7 +2030,12 @@ select {
 @media only screen and (min-width: 1025px) {
   .no-touch .nav__link:hover {
     text-decoration: underline;
+    cursor: pointer;
   }
+}
+
+.checkbox-label {
+  cursor: default;
 }
 
 .nav__mobile {
@@ -2854,6 +2859,7 @@ select {
   padding-left: 19px;
   background-color: #fff;
   border: 1px solid #2d3436;
+  font-family: 'Open Sans';
 }
 
 .contact-us__input::-webkit-input-placeholder {
@@ -2942,6 +2948,7 @@ select {
   padding: 8px 0 0 18px;
   height: 141px;
   margin-bottom: 51px;
+  font-family: 'Open Sans';
 }
 
 .contact-us__textarea::-webkit-input-placeholder {

@@ -155,7 +155,7 @@ class ContactForm extends Component {
             </span>
             <div class="contact-us__send">
             <div  >
-               <label for="privacy" className="contact-us__text noMarginLeft">
+               <label for="privacy" className="contact-us__text noMarginLeft checkbox-label">
                <input type="checkbox" name="privacy" className="checkBoxMiddleAlign"
                  checked={this.state.privacyContactFormCheckbox}
                   onClick={this.handlePrivacyContactFormChange}/>

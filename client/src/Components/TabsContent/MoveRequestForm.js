@@ -116,7 +116,7 @@ class MoveRequestForm extends Component {
     if (form.ToKindergardenIds.length === 0) {
       this.setState({
         toKindergardenErrorMessage:
-          "Obavezno odabrati želju za premestaj!",
+          "Obavezno odabrati želju za premeštaj!",
         validationErrorExists: true
       });
     }
@@ -367,17 +367,17 @@ class MoveRequestForm extends Component {
     } = this.state;
     const fromKindergardenId = this.props.fromKindergardenId;
 
-    const whereToMove = "Gde želis da se premestiš?"
+    const whereToMove = "Gde želiš da se premestiš?"
     const parentNamePlaceholderText = "Ime i prezime roditelja *";
     const emailPlaceholderText = "Email *";
     const phonePlaceholderText = "Broj telefona *";
     const birthdatePlaceholderText = "Datum rođenja deteta";
     const cityPlaceholderText = "Grad *";
     const groupPlaceholderText = "Odabrati grupu *";
-    const locationToFirstWishText = "Lokacija na koju želiš da se premestiš?";
-    const locationToSecondWishText = "2. Lokacija na koju želiš da se premestiš?";
+    const locationToFirstWishText = "Lokacija na koju želiš da se premestiš? *";
+    const locationToSecondWishText = "2. Lokacija na koju želiš da se premestiš? (";
     const locationToThirdWishText = "3. Lokacija na koju želiš da se premestiš?";
-    const chooseCurrentLocationText = "Izaberi trenutnu lokaciju";
+    const chooseCurrentLocationText = "Izaberi trenutnu lokaciju *";
     const messengerLinkText = "Pišite nam";
     const facebookLinkText = "Posetite nas";
     const submitFormButtonText = "Obavesti me"
@@ -515,7 +515,7 @@ class MoveRequestForm extends Component {
                 <div className="mainPrivacyPolicyCheckBox">
 
                   <div className="inline_block">
-                  <label for="privacy"  >
+                  <label for="privacy" className="checkbox-label">
                     <input type="checkbox" name="privacy" className="checkBoxMiddleAlign"
                  checked={this.state.privacyMainFormCheckbox}
                   onClick={this.handlePrivacyMainFormChange}/>&nbsp;&nbsp;&nbsp;Prihvatam politiku privatnosti</label>

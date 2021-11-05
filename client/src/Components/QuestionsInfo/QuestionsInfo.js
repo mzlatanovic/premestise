@@ -21,15 +21,15 @@ class QuestionsInfo extends Component {
              description="Nema, ovo je nezavisan projekat." 
              />
             <QuestionAccordion
-             title="Koja je svrha ovog sajta ?" 
+             title="Koja je svrha ovog sajta?" 
              description="Da se lakše stupi u kontakt sa roditeljima koji žele da izvrše premeštaj dece iz jednog vrtića u drugi." 
              />
             <QuestionAccordion
-             title="Koliko je sigurna moja privatnost ?" 
+             title="Koliko je sigurna moja privatnost?" 
              description="Podatke koje ste uneli u sistem neće biti javno dostupni i služe samo za realizovanje ideje ove aplikacije." 
              />
             <QuestionAccordion
-             title="Ko je napravio ovaj sajt ?" 
+             title="Ko je napravio ovaj sajt?" 
              description="Ovaj projekat je rezultat Code for a Cause akcije kompanije Vega IT sa ciljem rešavanja svakodnevnih problema u našem okruženju." 
              />
           </div>
