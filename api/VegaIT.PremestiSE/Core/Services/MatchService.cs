@@ -150,8 +150,6 @@ namespace Core.Services
 
 
             /// TREBA OBRISATI PENDING ZAHTEVE POSLE MATCHA
-
-
         }
 
         //try to populate chain and make ends meet

@@ -89,7 +89,7 @@ namespace Core.Clients
                     {
                         mail.AlternateViews.Add(altView);
                     }
-                    foreach(string cc in ccEmails)
+                    foreach (string cc in ccEmails)
                     {
                         mail.CC.Add(cc);
                     }
@@ -207,7 +207,7 @@ namespace Core.Clients
             IEnumerable<string> distinctEmails = fromRequestsKindergardens.Select(x => x.Email).Distinct();
             var groupMapper = new AgeGroupMapper();
             string ageGroup = groupMapper.mapGroupToText(validChain[0].Group);
-            List<MatchEmailInformation> emailsForKindergarden = new List<MatchEmailInformation>();
+            
             List<MatchInformation> matches = new List<MatchInformation>();
             for (var i = 0; i < validChain.Count; i++)
             {
@@ -227,6 +227,22 @@ namespace Core.Clients
                 matches.Add(current);
             }
 
+            // Uncomment in case we have to send emails to kindergardens
+            // List<MatchEmailInformation> emailInformationForKindergarden = GetEmailInformationForKindergardens(validChain, matches, distinctEmails, ageGroup);
+            // SendEmailsToKindergardens(emailsForKindergarden);
+
+            List<MatchEmailInformation> emailInformationForParents = GetEmailInformationForParents(validChain, matches, ageGroup);
+            SendEmailsToAllParents(emailInformationForParents);
+        }
+
+
+        private List<MatchEmailInformation> GetEmailInformationForKindergardens(
+            List<MatchedRequest> validChain,
+            List<MatchInformation> matches,
+            IEnumerable<string> distinctEmails,
+            string ageGroup)
+        {
+            List <MatchEmailInformation> emailsForKindergarden = new List<MatchEmailInformation>();
             foreach (string kinderGardenEmail in distinctEmails)
             {
                 MatchEmailInformation current = new MatchEmailInformation();
@@ -237,7 +253,51 @@ namespace Core.Clients
                 emailsForKindergarden.Add(current);
             }
 
+            return emailsForKindergarden;
+        }
+
+        private List<MatchEmailInformation> GetEmailInformationForParents(
+            List<MatchedRequest> validChain,
+            List<MatchInformation> matches,
+            string ageGroup)
+        {
+            List<MatchEmailInformation> emailsForParents = new List<MatchEmailInformation>();
+            foreach (MatchedRequest request in validChain)
+            {
+                MatchEmailInformation current = new MatchEmailInformation();
+                current.AgeGroup = ageGroup;
+                current.ChainLength = validChain.Count;
+                current.ToEmail = request.ParentEmail;
+                current.Matches = matches;
+                emailsForParents.Add(current);
+            }
+            return emailsForParents;
+        }
+
+        private void SendEmailsToKindergardens2(List<MatchEmailInformation> emailsForKindergarden)
+        {
+            AlternateView bannerImageAltView = new AlternateView(_bannerPath, MediaTypeNames.Image.Jpeg);
+            AlternateView footerImageAltView = new AlternateView(_footerPath, MediaTypeNames.Image.Jpeg);
+            bannerImageAltView.TransferEncoding = TransferEncoding.Base64;
+            footerImageAltView.TransferEncoding = TransferEncoding.Base64;
             foreach (MatchEmailInformation info in emailsForKindergarden)
+            {
+                using (StreamReader reader = new StreamReader(_circularTemplatePath))
+                {
+                    string mailText = reader.ReadToEnd();
+                    info.TopBannerLogo = $"cid:{bannerImageAltView.ContentId}";
+                    info.FooterLogo = $"cid:{footerImageAltView.ContentId}";
+
+                    var result = Engine.Razor.RunCompile(mailText, Guid.NewGuid().ToString(), typeof(MatchEmailInformation), info);
+                    AlternateView messageAltView = AlternateView.CreateAlternateViewFromString(result, null, MediaTypeNames.Text.Html);
+                    Send(info.ToEmail, new List<AlternateView> { messageAltView, bannerImageAltView, footerImageAltView });
+                }
+            }
+        }
+
+        private void SendEmailsToAllParents(List<MatchEmailInformation> emails)
+        {
+            foreach (MatchEmailInformation info in emails)
             {
                 using (StreamReader reader = new StreamReader(_circularTemplatePath))
                 {
@@ -255,26 +315,7 @@ namespace Core.Clients
                     Send(info.ToEmail, new List<AlternateView> { messageAltView, bannerImageAltView, footerImageAltView });
                 }
             }
-
-            foreach(MatchedRequest request in validChain)
-            {
-                using (StreamReader reader = new StreamReader(_parentTemplatePath))
-                {
-                    string mailText = reader.ReadToEnd();
-                    MatchEmailInformation info = new MatchEmailInformation();
-                    AlternateView bannerImageAltView = new AlternateView(_bannerPath, MediaTypeNames.Image.Jpeg);
-                    AlternateView footerImageAltView = new AlternateView(_footerPath, MediaTypeNames.Image.Jpeg);
-                    bannerImageAltView.TransferEncoding = TransferEncoding.Base64;
-                    footerImageAltView.TransferEncoding = TransferEncoding.Base64;
-                    info.TopBannerLogo = $"cid:{bannerImageAltView.ContentId}";
-                    info.FooterLogo = $"cid:{footerImageAltView.ContentId}";
-                    info.ToEmail = request.ParentEmail;
-
-                    var result = Engine.Razor.RunCompile(mailText, Guid.NewGuid().ToString(), typeof(MatchEmailInformation), info);
-                    AlternateView messageAltView = AlternateView.CreateAlternateViewFromString(result, null, MediaTypeNames.Text.Html);
-                    Send(info.ToEmail, new List<AlternateView> { messageAltView, bannerImageAltView, footerImageAltView }, new List<String>() { _ccEmail });
-                }
-            }
         }
+
     }
 }
