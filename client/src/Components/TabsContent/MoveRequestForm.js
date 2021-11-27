@@ -307,7 +307,7 @@ class MoveRequestForm extends Component {
 
   componentDidMount() {
     this.generateAgeGroups()
-    this.props.getCities();
+    this.props.getKindergardensByCity("Нови Сад")
     if (this.props.prePopulatedId != null) {
       this.setState({ toKindergardenErrorMessage: null });
       this.state.MoveToLocationId1 = this.props.prePopulatedId;
@@ -433,7 +433,7 @@ class MoveRequestForm extends Component {
               </div>
 
 
-                <select
+                {/* <select
                   id="city"
                   onChange={this.handleCityChange}
                   value={City}
@@ -447,7 +447,7 @@ class MoveRequestForm extends Component {
                 </select>
                 <span className="errorMessageMainForm" >
                   {this.state.cityErrorMessage}
-                </span>
+                </span> */}
              
 
               <br />
