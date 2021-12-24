@@ -14,9 +14,6 @@ class MoveRequestForm extends Component {
   state = {
     privacyMainFormCheckbox: false,
     privacyMainFormErrorMessage: null,
-    
-
-
     groupErrorMessage: null,
     cityErrorMessage: null,
     parentNameErrorMessage: null,
@@ -29,7 +26,7 @@ class MoveRequestForm extends Component {
     Email: "",
     PhoneNumber: "",
     ChildBirthDate: null,
-    City: null,
+    City: "Нови Сад",
     Group: null,
     MoveFromLocationId: null,
     MoveToLocationId1: null,
@@ -40,6 +37,7 @@ class MoveRequestForm extends Component {
   };
 
   handleSubmitData = event => {
+    debugger;
     event.preventDefault();
 
     let toKindergardenIds = [];
