@@ -197,14 +197,15 @@ namespace Core.Clients
 
         public void SendCircularMatchMessage(List<MatchedRequest> validChain)
         {
-            List <KindergardenEmailInfo> fromRequestsKindergardens = new List<KindergardenEmailInfo>(validChain.Count);
+            List <Kindergarden> fromRequestsKindergardens = new List<Kindergarden>(validChain.Count);
             //popuni listu, iz svakog zahteva iz lanca izvuci odakle se zeli premestaj sto ce biti dovoljno za email
             foreach (MatchedRequest request in validChain)
             {
-                fromRequestsKindergardens.Add(_kindergardenRepository.GetForEmailById(request.FromKindergardenId));
+                fromRequestsKindergardens.Add(_kindergardenRepository.GetById(request.FromKindergardenId));
             }
 
-            IEnumerable<string> distinctEmails = fromRequestsKindergardens.Select(x => x.Email).Distinct();
+            // Uncomment in case we have to send emails to kindergardens and get Email property
+            //IEnumerable<string> distinctEmails = fromRequestsKindergardens.Select(x => x.Email).Distinct();
             var groupMapper = new AgeGroupMapper();
             string ageGroup = groupMapper.mapGroupToText(validChain[0].Group);
             
