@@ -29,6 +29,12 @@ IsActive =  1
 WHERE city like N'Нови Сад'
 GO
 
+UPDATE kindergarden
+SET IsActive =  0
+WHERE name IN (N'СЕДИШТЕ - УПРАВА', N'ЦЕНТРАЛНА КУХИЊА', N'КУХИЊА I', N'КУХИЊА II')
+AND department = N'ПУ Радосно детињство'
+GO
+
 ALTER TABLE kindergarden ADD FOREIGN KEY (central) REFERENCES kindergarden (id);
 GO
 

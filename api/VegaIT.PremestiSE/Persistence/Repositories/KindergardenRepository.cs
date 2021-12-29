@@ -213,7 +213,7 @@ namespace Persistence.Repositories
                 conn.ConnectionString = _connString;
                 conn.Open();
                 SqlCommand cmd = conn.CreateCommand();
-                cmd.CommandText = @"SELECT * FROM kindergarden where city=@City;";
+                cmd.CommandText = @"SELECT * FROM kindergarden where city=@City AND IsActive = 1;";
                 cmd.Parameters.Add(new SqlParameter("@City", city));
 
                 using (SqlDataAdapter dataAdapter = new SqlDataAdapter())
