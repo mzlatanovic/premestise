@@ -42,11 +42,11 @@ namespace Core.Clients
         private const string _confirmMatchPageUrl = "placeholder";
 
         // ovo negde u config ili nesto
-        private readonly string _circularTemplatePath = $"{Directory.GetParent(Environment.CurrentDirectory)}\\Core\\Templates\\circular.htm";
-        private readonly string _verifyTemplatePath = $"{Directory.GetParent(Environment.CurrentDirectory)}\\Core\\Templates\\verify.htm";
-        private readonly string _matchTemplatePath = $"{Directory.GetParent(Environment.CurrentDirectory)}\\Core\\Templates\\index.htm";
-        private readonly string _bannerPath = $"{Directory.GetParent(Environment.CurrentDirectory)}\\Core\\Templates\\images\\top-banner.jpg";
-        private readonly string _footerPath = $"{Directory.GetParent(Environment.CurrentDirectory)}\\Core\\Templates\\images\\logo-footer.png";
+        private readonly string _circularTemplatePath = $"{Environment.CurrentDirectory}\\AppData\\circular.htm";
+        private readonly string _verifyTemplatePath = $"{Environment.CurrentDirectory}\\AppData\\verify.htm";
+        private readonly string _matchTemplatePath = $"{Environment.CurrentDirectory}\\AppData\\index.htm";
+        private readonly string _bannerPath = $"{Environment.CurrentDirectory}\\AppData\\images\\top-banner.jpg";
+        private readonly string _footerPath = $"{Environment.CurrentDirectory}\\AppData\\images\\logo-footer.png";
         private readonly string _parentTemplatePath = $"{Directory.GetParent(Environment.CurrentDirectory)}\\Core\\Templates\\parent.htm";
 
         public MailClient(ISmtpClientFactory smtpClientFactory, IConfiguration config, IKindergardenRepository kindergardenRepository)
