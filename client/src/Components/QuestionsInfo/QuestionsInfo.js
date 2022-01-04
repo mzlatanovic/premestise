@@ -14,11 +14,12 @@ class QuestionsInfo extends Component {
              />
             <QuestionAccordion
              title="Kako radi ovaj sajt?" 
-             description="Popunjavanjem forme pristupa se sistemu i proverava se da li se Vaša želja za premeštajem poklapa sa ostalim željama u sistemu. Ukoliko postoji poklapanje, na mejl ćete dobiti kontakt podatke drugog roditelja i potencijalno izvršiti zamenu. Ukoliko ne postoji trenutno poklapanje, čeka se da se poklapanje zahteva dogodi." 
+             description="Popunjavanjem forme pristupa se sistemu i proverava se da li se vaša želja za premeštajem poklapa sa ostalim željama u sistemu. Ukoliko postoji poklapanje, na mejl ćete dobiti kontakt podatke drugog roditelja i potencijalno izvršiti zamenu. Ukoliko ne postoji trenutno poklapanje, čeka se da se poklapanje zahteva dogodi. Nakon povezivanja potrebno je da se svi učesnici međusobno kontaktiraju i koordinišu zajednički odlazak u nadležnu predškolsku ustanovu kako bi podneli Zahtev za premeštaj. Konačnu odluku o mogućnosti premeštaja donosi nadležna predškolska ustanova.
+             " 
              />
             <QuestionAccordion
-             title="Da li ovaj sajt ima veze sa zahtevom koji se podnosi ustanovi, npr. Radosno Detinjstvo?" 
-             description="Nema, ovo je nezavisan projekat." 
+             title="Da li ovaj sajt ima veze sa zahtevom koji se podnosi predškolskoj ustanovi Radosno Detinjstvo?" 
+             description="Nema, premesti.se je nezavisan projekat koji pomaže roditeljima da nađu adekvatnu zamenu za vrtić i poveže ih. Nakon povezivanja preko sajta premesti.se potrebno je da se svi učesnici međusobno kontaktiraju i koordinišu zajednički odlazak u nadležnu predškolsku ustanovu kako bi podneli Zahtev za premeštaj. Konačnu odluku o mogućnosti premeštaja donosi nadležna predškolska ustanova." 
              />
             <QuestionAccordion
              title="Koja je svrha ovog sajta?" 
@@ -26,7 +27,7 @@ class QuestionsInfo extends Component {
              />
             <QuestionAccordion
              title="Koliko je sigurna moja privatnost?" 
-             description="Podatke koje ste uneli u sistem neće biti javno dostupni i služe samo za realizovanje ideje ove aplikacije." 
+             description="Podaci koje ste uneli u sistem neće biti javno dostupni i služe samo za realizovanje ideje ove aplikacije. Sa obradom podataka se možete detaljnije upoznati kroz Politiku privatnosti" 
              />
             <QuestionAccordion
              title="Ko je napravio ovaj sajt?" 

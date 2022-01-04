@@ -16,7 +16,7 @@ class Navigation extends Component {
           <div class="tabs__buttons">
             <ul class="tabs">
               <NavigationItem
-                title="Gde želiš da se premestiš?"
+                title="Gde želite da se premestite?"
                 tabNumber={1}
                 currentTab={currentTab}
               />

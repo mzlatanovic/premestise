@@ -9,13 +9,17 @@
   margin-left: 25px;
 }
 div.scrollBox {
-  
+  padding: 20px;
   width: 67%;
   height: 500px;
   overflow: auto;
   margin: 0 auto;
   margin-top: 29px;
+}
 
+div.scrollBox p {
+  margin-bottom: 20px;
+  line-height: 22px;
 }
 
 .inline_block {
@@ -78,4 +82,36 @@ div.scrollBox {
 
 .noMarginBottom {
   margin-bottom: 0;
-} 
+}
+
+.privacy__title {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #67d5f4;
+}
+
+.privacy__title--main {
+  font-size: 26px;
+  color: #000;
+}
+
+.privacy__subtitle {
+  font-size: 15px;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.privacy__list {
+  padding-left: 40px;
+}
+
+.privacy__item {
+  margin-bottom: 20px;
+  list-style-type:initial;
+}
+
+.h4 {
+  font-size: 16px;
+  color: #000;
+  font-weight: 700;
+}

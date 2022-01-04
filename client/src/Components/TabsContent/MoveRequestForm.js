@@ -7,12 +7,11 @@ import {
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { PUBLIC_DOMAIN_URL } from "../../Config/config";
-
 
 class MoveRequestForm extends Component {
   state = {
     privacyMainFormCheckbox: false,
+    guardianMainFormCheckbox: false,
     privacyMainFormErrorMessage: null,
     groupErrorMessage: null,
     cityErrorMessage: null,
@@ -213,6 +212,19 @@ class MoveRequestForm extends Component {
      
       this.setState({
         privacyMainFormCheckbox: false,
+         privacyMainFormErrorMessage: "Obavezno prihvatiti politiku privatnosti!" });
+    }
+  };
+
+  handleGuardianMainFormChange = event => {
+    if (event.target.checked === true) {
+      this.setState({
+        guardianMainFormCheckbox: true,
+        privacyMainFormErrorMessage: null
+      });
+    } else {
+      this.setState({
+        guardianMainFormCheckbox: false,
          privacyMainFormErrorMessage: "Obavezno prihvatiti politiku privatnosti!" });
     }
   };
@@ -511,18 +523,21 @@ class MoveRequestForm extends Component {
                   {this.state.groupErrorMessage}
                 </span>
                 <div className="mainPrivacyPolicyCheckBox">
-
-                  <div className="inline_block">
-                  <label for="privacy" className="checkbox-label">
-                    <input type="checkbox" name="privacy" className="checkBoxMiddleAlign"
-                 checked={this.state.privacyMainFormCheckbox}
-                  onClick={this.handlePrivacyMainFormChange}/>&nbsp;&nbsp;&nbsp;Prihvatam politiku privatnosti</label>
+                  <div style={ { display: 'flex', flexDirection: 'column'}} className="inline_block">
+                    <label for="privacy" className="checkbox-label">
+                      <input type="checkbox" name="privacy" className="checkBoxMiddleAlign" checked={this.state.privacyMainFormCheckbox} onClick={this.handlePrivacyMainFormChange}/>
+                        &nbsp;&nbsp;&nbsp;Pročitao/la sam i prihvatam Opšte uslove povezivanja roditelja uz pomoć veb-sajta „Premesti.se“ i Obaveštenje o obradi podataka o ličnosti
+                    </label>
+                    <label for="guardian" className="checkbox-label">
+                      <input type="checkbox" name="guardian" className="checkBoxMiddleAlign" checked={this.state.guardianMainFormCheckbox} onClick={this.handleGuardianMainFormChange}/>
+                      &nbsp;&nbsp;&nbsp;Potvrđujem da sam roditelj/staratelj deteta za koje se traži premeštanje
+                    </label>
                   </div>
                   <div>
-                <span className="errorMessageMainForm " >
-                  {this.state.privacyMainFormErrorMessage}
-                </span>
-                </div>
+                    <span className="errorMessageMainForm " >
+                      {this.state.privacyMainFormErrorMessage}
+                    </span>
+                  </div>
                 </div>
             </div>
           </div>
