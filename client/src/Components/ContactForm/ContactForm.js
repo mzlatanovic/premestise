@@ -36,7 +36,7 @@ class ContactForm extends Component {
       this.setState({ emailErrorMessage: "Obavezno uneti e-mail adresu!" });
     }
     if (form.message === "") {
-      this.setState({ messageErrorMessage: "Obavezno uneti text poruke!" });
+      this.setState({ messageErrorMessage: "Obavezno uneti tekst poruke!" });
     }
 
     if (!this.checkIfHasErrors()) {

@@ -5,7 +5,7 @@ class PromoBanner extends Component {
     const bannerHeadTitle = "Lakša komunikacija roditelja radi pronalaženja zamene mesta u vrtićima";
     const bannerDescription = "Kad premeštamo dete iz jednog vrtića u drugi i kada nema slobodnih \
     mesta, potrebno je da nađemo odgovarajuću zamenu, sa jednim ili \
-    više drugara. Upišite Vaše želje, a mi ćemo Vam poslati e-mail \
+    više drugara. Upišite vaše želje, a mi ćemo vam poslati e-mail \
     kada se desi poklapanje";
 
     return (
