@@ -20,7 +20,15 @@ class MoveRequestForm extends Component {
     phoneErrorMessage: null,
     fromKindergardenErrorMessage: null,
     toKindergardenErrorMessage: null,
-    validationErrorExists: true,
+    isGroupValid: false,
+    isParentNameValid: false,
+    isEmailValid: false,
+    isPhoneValid: false,
+    isFromKindergardenValid: false,
+    isToKindergardenValid: false,
+    isPrivacyMainFormValid: false,
+    isGuardianMainFormValid: false,
+    validationErrorExists: false,
     ParentNameSurname: "",
     Email: "",
     PhoneNumber: "",
@@ -35,8 +43,19 @@ class MoveRequestForm extends Component {
 
   };
 
+  form = {
+    ParentName: "",
+    Email: "",
+    PhoneNumber: "",
+    City: null,
+    Group: null,
+    FromKindergardenId: null,
+    ToKindergardenIds: [],
+    ChildBirthDate: new Date(),
+    ChildName: 'None'
+  };
+
   handleSubmitData = event => {
-    debugger;
     event.preventDefault();
 
     let toKindergardenIds = [];
@@ -46,97 +65,70 @@ class MoveRequestForm extends Component {
       toKindergardenIds.push(this.state.MoveToLocationId2);
     if (this.state.MoveToLocationId3)
       toKindergardenIds.push(this.state.MoveToLocationId3);
-
-    let form = {
-      ParentName: this.state.ParentNameSurname,
-      Email: this.state.Email,
-      PhoneNumber: this.state.PhoneNumber,
-      City: this.state.City,
-      Group: this.state.Group,
-      FromKindergardenId: this.state.MoveFromLocationId,
-      ToKindergardenIds: toKindergardenIds,
-      ChildBirthDate: new Date(),
-      ChildName: 'None'
-    };
-
-    if (this.state.privacyMainFormCheckbox === false) {
-      this.setState({
-        privacyMainFormErrorMessage: "Obavezno prihvatiti politiku privatnosti!",
-        validationErrorExists: true
-      });
-    }
-
-    if (form.ParentName === "") {
-      this.setState({
-        parentNameErrorMessage: "Obavezno uneti ime roditelja!",
-        validationErrorExists: true
-      });
-    }
-
-    if (form.Email === "") {
-      this.setState({
-        emailErrorMessage: "Proveriti format e-mail adrese!",
-        validationErrorExists: true
-      });
-    }
-
-    if (form.PhoneNumber === "") {
-      this.setState({
-        phoneErrorMessage: "Obavezno uneti kontakt telefon!",
-        validationErrorExists: true
-      });
-    }
-
-
-    if (form.City === null) {
-      this.setState({
-        cityErrorMessage: "Obavezno odabrati grad relokacije!",
-        validationErrorExists: true
-      });
-    }
-
-    if (form.Group === null) {
-      this.setState({
-        groupErrorMessage: "Obavezno odabrati grupu!",
-        validationErrorExists: true
-      });
-    }
-
-
-    if (form.FromKindergardenId === null) {
-      this.setState({
-        fromKindergardenErrorMessage: "Obavezno mesto relokacije!",
-        validationErrorExists: true
-      });
-    }
-
-    if (form.ToKindergardenIds.length === 0) {
-      this.setState({
-        toKindergardenErrorMessage:
-          "Obavezno odabrati želju za premeštaj!",
-        validationErrorExists: true
-      });
-    }
-
-    if (this.checkIfNotHasErrors()) {
-      this.props.newMoveRequest(form);
-    }
+    
+    this.form.ParentName =  this.state.ParentNameSurname;
+    this.form.Email = this.state.Email;
+    this.form.PhoneNumber =  this.state.PhoneNumber;
+    this.form.City =  this.state.City;
+    this.form.Group =  this.state.Group;
+    this.form.FromKindergardenId =  this.state.MoveFromLocationId;
+    this.form.ToKindergardenIds =  toKindergardenIds;
+      
+    this.setState({
+      privacyMainFormErrorMessage: this.arePrivacyMainFormAndGuardianMainFormValid() ? null : "Obavezno prihvatiti politiku privatnosti!" ,
+      groupErrorMessage: this.isGroupValid() ? null : "Obavezno odabrati grupu!",
+      cityErrorMessage: this.isCityValid() ? null : "Obavezno odabrati grad relokacije!" ,
+      parentNameErrorMessage: this.isParentNameValid() ? null : "Obavezno uneti ime roditelja!",
+      emailErrorMessage: this.isEmailValid() ? null : "Proveriti format e-mail adrese!" ,
+      phoneErrorMessage: this.isPhoneNumberValid() ? null : "Obavezno uneti kontakt telefon!",
+      fromKindergardenErrorMessage: this.isFromKindergardenIdValid() ? null : "Obavezno mesto relokacije!" ,
+      toKindergardenErrorMessage: this.areToKindergardenIdsValid() ? null : "Obavezno odabrati želju za premeštaj!", 
+      validationErrorExists: this.validationErrorExists()},
+        () => {
+        if(!this.state.validationErrorExists) {
+          this.props.newMoveRequest(this.form);
+        }
+     });
   };
 
-  checkIfNotHasErrors = () => {
-    if (
-        !this.state.groupErrorMessage &&
-        !this.state.cityErrorMessage &&
-        !this.state.parentNameErrorMessage &&
-        !this.state.emailErrorMessage &&
-        !this.state.phoneErrorMessage &&
-        !this.state.fromKindergardenErrorMessage &&
-        !this.state.toKindergardenErrorMessage &&
-        !this.state.privacyMainFormErrorMessage
-    ) return true;
+  validationErrorExists = () => {
+    return !(this.state.isPrivacyMainFormValid && this.state.isGuardianMainFormValid && this.state.isGroupValid && this.state.isParentNameValid && this.state.isEmailValid &&  this.state.isPhoneValid && this.state.isFromKindergardenValid && this.state.isToKindergardenValid)
+  };
 
-    return false;
+  arePrivacyMainFormAndGuardianMainFormValid = () => {
+      return !(this.state.privacyMainFormCheckbox === false || this.state.guardianMainFormCheckbox === false);
+  };
 
+  isGroupValid = () => {
+      return !(this.form.Group === null);
+  };
+
+  isParentNameValid = () => {
+       return !(this.form.ParentName === "");
+  };
+  
+  isEmailValid = () => {
+      return !(this.form.Email === "");
+  };
+
+  isPhoneNumberValid = () => {
+      return !(this.form.PhoneNumber === "");
+  };
+
+  isCityValid = () => {
+      return !(this.form.City === null);
+  };
+
+  isFromKindergardenIdValid = () => {
+      return !(this.form.FromKindergardenId === null);
+  };
+  
+  areToKindergardenIdsValid = () => {
+      return !(this.form.ToKindergardenIds.length === 0);
+  };
+
+  isGroupValid = () => {
+      return !(this.form.Group === null);
   };
 
   handleParentNameChange = event => {
@@ -144,16 +136,16 @@ class MoveRequestForm extends Component {
     if (event.target.value !== "") {
       this.setState({
         ParentNameSurname: event.target.value,
-        parentNameErrorMessage: null
+        parentNameErrorMessage: null,
+        isParentNameValid: true
       });
     } else {
       this.setState({
         parentNameErrorMessage: "Obavezno uneti ime roditelja!",
-        ParentNameSurname: ""
+        ParentNameSurname: "",
       });
     }
   };
-
 
   emailFormatValidation = (emailAddress) => {
     const mailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -167,7 +159,8 @@ class MoveRequestForm extends Component {
     } else {
       this.setState({
         emailErrorMessage: null,
-        Email: emailAddress
+        Email: emailAddress,
+        isEmailValid: true
       });
 
     }
@@ -182,6 +175,7 @@ class MoveRequestForm extends Component {
       this.setState({
         Email: "",
         emailErrorMessage: "Proveriti format e-mail adrese!"
+        
       });
     }
   };
@@ -191,7 +185,8 @@ class MoveRequestForm extends Component {
     if (event.target.value !== "") {
       this.setState({
         PhoneNumber: event.target.value,
-        phoneErrorMessage: null
+        phoneErrorMessage: null,
+        isPhoneValid: true
       });
     } else {
       this.setState({
@@ -202,34 +197,20 @@ class MoveRequestForm extends Component {
   };
 
   handlePrivacyMainFormChange = event => {
-    if (event.target.checked === true) {
       this.setState({
-        privacyMainFormCheckbox: true,
-        privacyMainFormErrorMessage: null
+        privacyMainFormCheckbox: event.target.checked,
+        privacyMainFormErrorMessage: event.target.checked ? null : "Obavezno prihvatiti politiku privatnosti!",
+        isPrivacyMainFormValid: event.target.checked ? true : false
       });
-      
-    } else {
-     
-      this.setState({
-        privacyMainFormCheckbox: false,
-         privacyMainFormErrorMessage: "Obavezno prihvatiti politiku privatnosti!" });
-    }
   };
 
   handleGuardianMainFormChange = event => {
-    if (event.target.checked === true) {
       this.setState({
-        guardianMainFormCheckbox: true,
-        privacyMainFormErrorMessage: null
+        guardianMainFormCheckbox: event.target.checked,
+        privacyMainFormErrorMessage: event.target.checked ? null : "Obavezno prihvatiti politiku privatnosti!",
+        isGuardianMainFormValid: event.target.checked ? true : false
       });
-    } else {
-      this.setState({
-        guardianMainFormCheckbox: false,
-         privacyMainFormErrorMessage: "Obavezno prihvatiti politiku privatnosti!" });
-    }
   };
-
-
 
   handleCityChange = event => {
     event.preventDefault();
@@ -251,7 +232,8 @@ class MoveRequestForm extends Component {
     if (event.target.value !== null) {
       this.setState({
         Group: event.target.value,
-        groupErrorMessage: null
+        groupErrorMessage: null,
+        isGroupValid: true
       });
     } else {
       this.setState({ Group: null });
@@ -264,13 +246,15 @@ class MoveRequestForm extends Component {
     if (event.target.value !== null) {
       this.setState({
         MoveFromLocationId: event.target.value,
-        fromKindergardenErrorMessage: null
+        fromKindergardenErrorMessage: null,
+        isFromKindergardenValid: true
       });
 
     } else {
       this.setState({
         MoveFromLocationId: null,
         fromKindergardenErrorMessage: "Obavezno mesto relokacije!"
+        
       });
     }
   };
@@ -281,7 +265,8 @@ class MoveRequestForm extends Component {
     if (event.target.value !== null) {
       this.setState({
         MoveToLocationId1: event.target.value,
-        toKindergardenErrorMessage: null
+        toKindergardenErrorMessage: null,
+        isToKindergardenValid: true 
       });
 
     } else {
@@ -295,7 +280,8 @@ class MoveRequestForm extends Component {
     if (event.target.value !== null) {
       this.setState({
         MoveToLocationId2: event.target.value,
-        toKindergardenErrorMessage: null
+        toKindergardenErrorMessage: null,
+        isToKindergardenValid: true 
       });
     } else {
       this.setState({ MoveToLocationId2: null });
@@ -308,7 +294,8 @@ class MoveRequestForm extends Component {
     if (event.target.value !== null) {
       this.setState({
         MoveToLocationId3: event.target.value,
-        toKindergardenErrorMessage: null
+        toKindergardenErrorMessage: null,
+        isToKindergardenValid: true
       });
     } else {
       this.setState({ MoveToLocationId3: null });
@@ -319,7 +306,7 @@ class MoveRequestForm extends Component {
     this.generateAgeGroups()
     this.props.getKindergardensByCity("Нови Сад")
     if (this.props.prePopulatedId != null) {
-      this.setState({ toKindergardenErrorMessage: null });
+      this.setState({ toKindergardenErrorMessage: null});
       this.state.MoveToLocationId1 = this.props.prePopulatedId;
     }
   }
@@ -554,8 +541,7 @@ class MoveRequestForm extends Component {
                 className="btn"
                 type="submit"
                 id="submit-new-request"
-                onClick={this.handleSubmitData}
-              >
+                onClick={this.handleSubmitData}>
                 <span className="font-ico-envelope"></span> {submitFormButtonText}
               </button>
             </div>
